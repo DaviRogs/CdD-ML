@@ -81,3 +81,11 @@ Consulte o arquivo documentacao_legal_etica.txt para ver detalhes sobre:
 - Termos de uso da API da Câmara dos Deputados
 - Conformidade com a LGPD (Lei Geral de Proteção de Dados)
 - Boas práticas e recomendações éticas na manipulação de dados públicos
+
+7. INTEGRANTES
+
+Andre Ricardo Meyer de Melo  - 231011097
+Davi Rodrigues da Rocha - 211061618
+Luiz Felipe Bessa Santos - 231011687
+Tiago Antunes Balieiro - 231011838
+Wesley Pedrosa dos Santos - 180029240 
