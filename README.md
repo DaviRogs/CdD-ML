@@ -1,7 +1,7 @@
 # **Projeto: Coleta de Despesas de Deputados (Câmara dos Deputados)**
 Este repositório contém um script em Python para coletar dados de despesas dos deputados por meio da API de Dados Abertos da Câmara dos Deputados.
 
-<pre> ## 1. **Estrutura do Repositório** ``` ├── dados/ │ ├── Ano-2023.csv.zip │ ├── Ano-2024.csv.zip │ ├── Ano-2025.csv.zip │ ├── votacoesObjetos_votacoesVotos_votacoesOrientacoes_votacoes_deputados.zip │ └── coleta_dados.py ├── documentacao_legal_etica.txt ├── LICENSE └── README.md ``` </pre>
+## 1. **Estrutura do Repositório**``` ├── dados/ │ ├── Ano-2023.csv.zip │ ├── Ano-2024.csv.zip │ ├── Ano-2025.csv.zip │ ├── votacoesObjetos_votacoesVotos_votacoesOrientacoes_votacoes_deputados.zip │ └── coleta_dados.py ├── documentacao_legal_etica.txt ├── LICENSE └── README.md ``` 
 
 Descrição dos Arquivos Principais:
 
