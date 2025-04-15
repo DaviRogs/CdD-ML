@@ -1,7 +1,7 @@
-Projeto: Coleta de Despesas de Deputados (Câmara dos Deputados)
+# **Projeto: Coleta de Despesas de Deputados (Câmara dos Deputados)**
 Este repositório contém um script em Python para coletar dados de despesas dos deputados por meio da API de Dados Abertos da Câmara dos Deputados.
 
-1. Estrutura do Repositório
+## 1. **Estrutura do Repositório**
 
 ├── dados/
 │   ├── Ano-2023.csv.zip  (exemplo)
@@ -25,7 +25,7 @@ LICENSE: arquivo de licença do projeto (caso necessário).
 
 README.md: este arquivo, com a descrição do projeto e instruções de uso.
 
-2. Descrição do Script coleta_dados.py
+## 2. Descrição do Script coleta_dados.py**
 O arquivo coleta_dados.py faz o seguinte:
 
 Consulta a lista de deputados por meio do endpoint da API de Dados Abertos da Câmara:
@@ -42,7 +42,7 @@ Ao final, salva todos os dados em um arquivo CSV chamado despesas_deputados_2024
 
 Observação: Apesar do nome do arquivo ser despesas_deputados_2024.csv, o script está configurado para buscar dados do ano de 2022. Você pode ajustar o ano e o nome do arquivo conforme a sua necessidade no código.
 
-3. Pré-Requisitos
+## 3. Pré-Requisitos**
 Python 3.x instalado em seu sistema.
 
 Biblioteca requests para realizar requisições HTTP.
@@ -53,7 +53,7 @@ Você pode instalar as dependências necessárias executando:
 
 pip install -r requirements.txt
 
-4. Como Executar o Script
+## 4. Como Executar o Script**
 Clone ou baixe este repositório em sua máquina.
 
 Abra um terminal na pasta onde o coleta_dados.py está localizado.
@@ -67,7 +67,7 @@ A cada requisição, o script exibirá no console o nome do deputado e uma mensa
 
 Ao final, um arquivo chamado despesas_deputados_2024.csv será gerado na mesma pasta.
 
-5. Notas Importantes
+## 5. Notas Importantes**
 O script utiliza um time.sleep(0.5) após cada requisição para evitar sobrecarregar o servidor da API (boa prática de respeito à taxa de requisições).
 
 Caso o número de itens ou páginas seja grande, a execução pode demorar. Ajuste os parâmetros no código conforme suas necessidades:
@@ -82,7 +82,7 @@ Se quiser coletar dados de outros anos, basta alterar o valor do parâmetro "ano
 
 Se o script travar ou retornar muitos erros de requisição, considere aumentar o intervalo de time.sleep() ou reduzir a quantidade de itens (itens).
 
-6. Documentação Legal e Ética
+## 6. Documentação Legal e Ética**
 Consulte o arquivo documentacao_legal_etica.txt para ver detalhes sobre:
 
 Termos de uso da API da Câmara dos Deputados
