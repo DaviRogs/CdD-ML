@@ -4,10 +4,10 @@ Este repositório contém um script em Python para coletar dados de despesas dos
 ## 1. **Estrutura do Repositório**
 
 ├── dados/
-│   ├── Ano-2023.csv.zip  (exemplo)
-│   ├── Ano-2024.csv.zip  (exemplo)
-│   ├── Ano-2025.csv.zip  (exemplo)
-│   ├── votacoesObjetos_votacoesVotos_votacoesOrientacoes_votacoes_deputados.zip (exemplo)
+│   ├── Ano-2023.csv.zip 
+│   ├── Ano-2024.csv.zip 
+│   ├── Ano-2025.csv.zip 
+│   ├── votacoesObjetos_votacoesVotos_votacoesOrientacoes_votacoes_deputados.zip
 │   └── coleta_dados.py
 ├── documentacao_legal_etica.txt
 ├── LICENSE
