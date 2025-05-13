@@ -1,3 +1,4 @@
+
 README - Mini Trabalho de Preparação de Dados para Aprendizado de Máquina
 --------------------------------------------------------------------------
 
@@ -50,3 +51,4 @@ Instruções para Executar:
    ```bash
    python -m venv venv
    source venv/bin/activate
+>>>>>>> a135d0902d9749a0292078b65829a3ecff0ea0f9
