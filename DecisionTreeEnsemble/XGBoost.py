@@ -1,15 +1,19 @@
 import pandas as pd
 import numpy as np
-# import joblib as jb
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 from sklearn.utils import class_weight
 from sklearn.metrics import accuracy_score, classification_report, roc_auc_score
-from xgboost import XGBClassifier
 import matplotlib.pyplot as plt
+from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
+from scipy.stats import uniform, randint
+from xgboost import XGBClassifier
+from sklearn.pipeline import Pipeline
+import warnings
+
+warnings.filterwarnings("ignore")
+
 
 # Carregar os dados
 df = pd.read_csv('../dados/df_consolidado.csv', dtype={
@@ -78,75 +82,80 @@ class_weights = class_weight.compute_sample_weight('balanced', y_train)
 # Opção 1: Gradient Boosting do sklearn
 pipeline = Pipeline([
     ('preprocessor', preprocessor),
-    ('classifier', GradientBoostingClassifier(
-        n_estimators=200,
-        learning_rate=0.05,
-        max_depth=5,
-        min_samples_split=10,
-        min_samples_leaf=5,
-        random_state=42,
-        subsample=0.8
-    ))
-])
-
-# Opção 2: XGBoost (descomentar para usar)
-"""
-pipeline = Pipeline([
-    ('preprocessor', preprocessor),
     ('classifier', XGBClassifier(
-        n_estimators=200,
-        learning_rate=0.05,
-        max_depth=5,
-        min_child_weight=3,
-        subsample=0.8,
-        colsample_bytree=0.8,
+        objective='binary:logistic',
+        use_label_encoder=False,
+        eval_metric='logloss',
         random_state=42,
-        scale_pos_weight=np.sum(y_train == 0) / np.sum(y_train == 1)  # Para dados desbalanceados
+        scale_pos_weight=np.sum(y_train == 0) / np.sum(y_train == 1)
     ))
 ])
-"""
 
-# Treinar modelo
-pipeline.fit(X_train, y_train, classifier__sample_weight=class_weights)
+param_dist = {
+    'classifier__n_estimators': randint(100, 500),
+    'classifier__learning_rate': uniform(0.01, 0.3),
+    'classifier__max_depth': randint(3, 10),
+    'classifier__subsample': uniform(0.6, 0.4),
+    'classifier__colsample_bytree': uniform(0.6, 0.4),
+    'classifier__min_child_weight': randint(1, 10),
+    'classifier__gamma': uniform(0, 0.5)
+}
 
-# Avaliar modelo
-y_pred = pipeline.predict(X_test)
-y_proba = pipeline.predict_proba(X_test)[:, 1]  # Probabilidades para classe positiva
+# Validação cruzada estratificada
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
-print(f"Acurácia: {accuracy_score(y_test, y_pred):.2f}")
-print(f"AUC-ROC: {roc_auc_score(y_test, y_proba):.2f}")
+
+# RandomizedSearchCV
+search = RandomizedSearchCV(
+    pipeline,
+    param_distributions=param_dist,
+    n_iter=20,
+    scoring='roc_auc',
+    n_jobs=-1,
+    cv=cv,
+    verbose=1,
+    random_state=42
+)
+
+# Executar busca
+search.fit(X_train, y_train, classifier__sample_weight=class_weights)
+
+# Melhor modelo
+best_model = search.best_estimator_
+
+# Avaliação final
+y_pred_best = best_model.predict(X_test)
+y_proba_best = best_model.predict_proba(X_test)[:, 1]
+
+print("\n🔍 MELHOR COMBINAÇÃO DE PARÂMETROS:")
+print(search.best_params_)
+
+print("\n📊 DESEMPENHO APÓS OTIMIZAÇÃO:")
+print(f"Acurácia: {accuracy_score(y_test, y_pred_best):.2f}")
+print(f"AUC-ROC: {roc_auc_score(y_test, y_proba_best):.2f}")
 print("\nRelatório de Classificação:")
-print(classification_report(y_test, y_pred))
+print(classification_report(y_test, y_pred_best))
 
-# # Feature importance (para XGBoost ou GradientBoosting)
-# try:
-#     importances = pipeline.named_steps['classifier'].feature_importances_
-#     feature_names = (numeric_features + 
-#                     list(pipeline.named_steps['preprocessor']
-#                         .named_transformers_['cat']
-#                         .get_feature_names_out(categorical_features)))
-    
-#     importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
-#     importance_df = importance_df.sort_values('Importance', ascending=False)
-#     print("\nImportância das Features:")
-#     print(importance_df.head(20))
-# except Exception as e:
-#     print("\nNão foi possível extrair importância das features:", str(e))
-
+# Feature Importance
 try:
+    importances = best_model.named_steps['classifier'].feature_importances_
+    feature_names = (
+        numeric_features + 
+        list(best_model.named_steps['preprocessor']
+            .named_transformers_['cat']
+            .get_feature_names_out(categorical_features))
+    )
+    importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+    importance_df = importance_df.sort_values('Importance', ascending=False)
+    
     plt.figure(figsize=(10, 6))
-    plt.barh(importance_df['Feature'], importance_df['Importance'], color='skyblue')
+    plt.barh(importance_df['Feature'], importance_df['Importance'])
     plt.xlabel('Importância')
     plt.ylabel('Features')
-    plt.title('Importância das Features')
-    plt.gca().invert_yaxis()  # Inverter o eixo para exibir a feature mais importante no topo
+    plt.title('Importância das Features (XGBoost Otimizado)')
+    plt.gca().invert_yaxis()
     plt.tight_layout()
     plt.show()
 except Exception as e:
-    print("\nNão foi possível plotar a importância das features:", str(e))
+    print("Erro ao plotar importância das features:", str(e))
 
-# Salvar png, caso necessário
-# plt.savefig('feature_importance_xgboost.png', dpi=300)
-
-# Salvar o modelo para uso futuro
-# jb.dump(pipeline, 'modelo_aprovacao_gb.pkl')
