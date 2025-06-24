@@ -1,112 +1,98 @@
-# 📦 Mini Trabalho 6 – Otimização e Ajuste Fino dos Modelos de Machine Learning
+Mini Trabalho 7 — Apresentação e Documentação da Solução de Aprendizado de Máquina
+Equipe:
+Andre Ricardo Meyer de Melo - 231011097
 
-## 🎯 Objetivo
+Luiz Felipe Bessa Santos - 231011687
 
-Este mini trabalho teve como foco a **otimização e ajuste fino dos modelos de aprendizado de máquina** utilizados para prever a aprovação de proposições legislativas na Câmara dos Deputados.
+Tiago Antunes Balieiro - 231011838
 
-Foram aplicadas técnicas de ajuste de hiperparâmetros com validação cruzada para **maximizar a performance** dos modelos (Random Forest e XGBoost), reduzindo overfitting e melhorando a capacidade de generalização.
+Wesley Pedrosa dos Santos - 180029240
 
----
+Objetivo
+O objetivo proposto foi a previsão de aprovação de proposições legislativas. O projeto tem como base os dados consolidados sobre votações, proposições, temas e partidos, além das diversas características dos deputados e das proposições. A seguinte documentação ve inclui os seguintes pontos principais:
 
-## 👥 Equipe e Responsabilidades
+Como o projeto atende aos objetivos inicialmente propostos.
 
-| Integrante         | Responsabilidade                                                                 |
-|--------------------|----------------------------------------------------------------------------------|
-| Pessoa 1           | Otimização do modelo **Random Forest** com GridSearchCV e validação cruzada     |
-| Pessoa 2           | Otimização do modelo **XGBoost** com RandomizedSearchCV e ajuste de parâmetros   |
-| Pessoa 3           | Implementação de validação cruzada + análise de erros e métricas de avaliação    |
-| Pessoa 4           | Organização final dos notebooks, arquivos e documentação (`README.txt`)          |
+Descrição da metodologia utilizada.
 
----
+Modelos de aprendizado de máquina selecionados.
 
-## 🧪 Modelos Otimizados
-
-### ✅ Random Forest (Pessoa 1)
-
-- Utilizou `RandomizedSearchCV` com validação cruzada (5-fold) para ajustar os hiperparâmetros:
-  - `n_estimators`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_features`
-- Aplicou `class_weight=balanced` para corrigir desbalanceamento da classe alvo.
-- Métrica de avaliação principal: **F1-score**
-- Resultados:
-  - **Melhor F1-score na validação cruzada**: ~0.95
-  - **Importância das features** plotada com `seaborn`
-- Modelo final salvo como: `random_forest_otimizado.joblib`
-
-- Resultados:
-  - Melhor F1-score para a classe "1" (aprovada)
-  - Gráfico de validação para `max_depth` incluído
-
----
-
-### ✅ XGBoost (Pessoa 2)
-
-- Ajustou os hiperparâmetros com `RandomizedSearchCV` e `StratifiedKFold`:
-  - `learning_rate`, `n_estimators`, `max_depth`, `subsample`, `colsample_bytree`, `gamma`, `min_child_weight`
-- Configuração extra:
-  - `use_label_encoder=False`
-  - `eval_metric='logloss'`
-- Métricas analisadas: **Acurácia**, **F1-score**, **AUC-ROC**
-- Resultados:
-  - **Melhoria significativa de desempenho após tuning**
-  - **Feature importance** visualizada e interpretada
-- Modelo pronto para exportação via `joblib`
-
-- Observações:
-  - Otimização com 20 combinações e 5 folds: total de 100 treinamentos
-  - Monitoramento com `verbose` e suporte a `tqdm` se necessário
-  - Redução de warnings e melhora na performance geral
-  - AUC e F1 melhoraram em comparação ao modelo anterior
-
----
-
-### ✅ Validação Cruzada e Análise de Erros (Pessoa 3)
-
-- Aplicou `cross_val_score` com `f1_macro` e `StratifiedKFold` (5-fold)
-- Utilizou `RandomForestClassifier` como baseline
-- Análises realizadas:
-  - Distribuição de scores entre as folds com `boxplot`
-  - Matriz de confusão com `seaborn.heatmap`
-  - Identificação de **erros comuns**, como proposições previstas como rejeitadas mas que foram aprovadas
-- Insights relevantes para próximas iterações dos modelos
+Resultados obtidos e análise crítica.
 
 
-## 📂 Estrutura da Entrega
+Como o projetoo atende aos objetivos inicialmente propostos
+Atráves do modelo treinado, podemos aplicá-lo em uma nova base de dados para prever o resultado de uma proposição, sendo necessário apenas os dados públicos e divulgados da proposição.
+Como não era um dos objetivos iniciais e também por questões de tempo, não foi criada uma interface gráfica para a utilização do modelo.
 
-📁 modelos_otimizados/
-    ├── random_forest_otimizado.pkl
-    ├── xgboost_otimizado.pkl
+Metodologia Utilizada
+A metodologia aplicada no projeto se baseia no processo iterativo de aprendizado de máquina, onde primeiramente foi feita a análise exploratória dos dados, seguido do pré-processamento e divisão em conjunto de treino e teste. Os passos principais incluem:
 
-📁 resultados/
-    ├── matriz_confusao_rf.png
-    ├── matriz_confusao_xgb.png
-    ├── grafico_importancia_rf.png
-    ├── grafico_validacao_xgb.png
+1. Pré-processamento dos Dados
+Tratamento de valores ausentes: Substituição dos valores faltantes por valores médios, moda ou imputação com técnicas adequadas.
 
-📁 notebooks/
-    ├── otimizacao_random_forest.ipynb
-    ├── otimizacao_xgboost.ipynb
-    ├── validacao_cruzada_analise_erros.ipynb
+Codificação de variáveis categóricas: Utilização de técnicas como One-Hot Encoding para variáveis como siglaUf, tema, entre outras.
 
-📄 README.txt
+Balanceamento de classes: A classe alvo estava desbalanceada, então utilizamos técnicas como class_weight para balancear os dados.
 
+Normalização e Escalonamento: Alguns modelos como KNN e SVM exigem dados normalizados, então utilizamos técnicas como MinMaxScaler.
 
-## 🛠️ Como Executar
+2. Modelos de Aprendizado de Máquina Selecionados
+A seguir, apresentamos os modelos de aprendizado de máquina que foram utilizados para prever a aprovação das proposições legislativas:
 
-1. Certifique-se de ter as bibliotecas instaladas:
-   - `scikit-learn`, `xgboost`, `matplotlib`, `seaborn`, `pandas`, `numpy`
+Decision Tree: Um modelo simples e interpretável para fornecer uma visão clara de como as decisões são tomadas.
 
-2. Abra os notebooks em `/notebooks/` e execute célula por célula.
+Random Forest: Um ensemble de árvores de decisão que melhora a precisão ao combinar múltiplas árvores.
 
-3. Para carregar os modelos otimizados:
-```python
-import joblib
-modelo_rf = joblib.load('modelos_otimizados/random_forest_otimizado.pkl')
-modelo_xgb = joblib.load('modelos_otimizados/xgboost_otimizado.pkl')
+K-Nearest Neighbors (KNN): Um modelo simples que pode ser eficaz em alguns contextos, mas requer boa normalização dos dados.
 
+Support Vector Machine (SVM): Um modelo robusto, ideal para separar classes em espaços de alta dimensionalidade.
 
-Conclusão
-Os modelos otimizados apresentaram melhorias significativas nas métricas de avaliação.
+XGBoost: Um modelo baseado em Gradient Boosting, altamente eficaz em problemas com dados desbalanceados e grande complexidade.
 
-A escolha criteriosa dos hiperparâmetros e o uso da validação cruzada aumentaram a robustez das previsões.
+3. Avaliação dos Modelos
+Os modelos foram avaliados com base nas seguintes métricas:
 
-As análises de erro e importância das features trouxeram insights valiosos para futuras melhorias.
+Acurácia
+
+Precisão
+
+Recall
+
+F1-Score
+
+AUC-ROC (para o modelo XGBoost)
+
+As métricas foram calculadas utilizando a função classification_report da biblioteca sklearn.
+
+Resultados Obtidos
+Modelo	Acurácia	F1-Score (Classe 1)	Observações
+Random Forest	0.77	~0.75	Melhor desempenho geral
+Decision Tree	0.66	~0.61	Boa interpretabilidade
+K-Nearest Neighbors	0.62	~0.60	Requer normalizaçãol
+Support Vector Machine	0.66	~0.61	Mais lento para treinar
+XGBoost	0.76	~0.67
+
+Esses valores apresentados são aproximados e podem variar de acordo com ajustes adicionais de hiperparâmetros.
+
+Análise Crítica
+Árvores de Decisão e Random Forest: Apresentaram resultados robustos, com o Random Forest se destacando como o melhor modelo. Seu desempenho foi consistente em termos de acurácia e F1-Score, além de fornecer interpretabilidade.
+
+XGBoost: Este modelo demonstrou grande potencial, especialmente em datasets desbalanceados. A métrica AUC-ROC foi superior, o que sugere que este modelo tem mais capacidade de discriminar as classes, sendo um bom candidato para otimizações futuras.
+
+KNN e SVM: Ambos modelos exigem um maior tempo de treinamento, com o KNN sendo altamente dependente de normalização. O desempenho foi razoável, mas inferior ao dos outros modelos.
+
+Balanceamento de classes e Codificação: O balanceamento adequado das classes e a codificação das variáveis foram fatores cruciais para alcançar um bom desempenho. Ajustes nessas etapas podem impactar significativamente os resultados.
+
+Justificativa para o Modelo Selecionado
+Os modelo Random Forest foi escolhido para a continuidade do projeto, uma vez que mostrou ótimo desempenho nas métricas de avaliação, especialmente em relação à acurácia e F1-Score.
+
+Random Forest é uma boa escolha devido à sua robustez e facilidade de uso, além de ser mais eficiente para conjuntos de dados grandes.
+
+Esse modelo apresenta bom equilíbrio entre performance e tempo de treinamento e é o utilizado para o modelo final.
+
+Estrutura da Documentação
+
+Mini Trabalho 7 - Grupo 09/
+    ├── ajusteHiperparametrosRandomForest.py  # Arquivo com o código utilizado para otimizar o modelo escolhido
+    ├── Comparativo_Modelos_Completo.ipynb  # Arquivo com o código de comparativo dos modelos, e com as técnicas utilizadas e especificadas na documentação
+    ├── README.txt
