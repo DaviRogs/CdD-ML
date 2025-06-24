@@ -1,10 +1,8 @@
-# 📦 Mini Trabalho 6 – Otimização e Ajuste Fino dos Modelos de Machine Learning
+# 📦 Mini trabalho 8: Lançamento, monitoramento e manutenção do sistema
 
 ## 🎯 Objetivo
 
-Este mini trabalho teve como foco a **otimização e ajuste fino dos modelos de aprendizado de máquina** utilizados para prever a aprovação de proposições legislativas na Câmara dos Deputados.
-
-Foram aplicadas técnicas de ajuste de hiperparâmetros com validação cruzada para **maximizar a performance** dos modelos (Random Forest e XGBoost), reduzindo overfitting e melhorando a capacidade de generalização.
+Este mini trabalho tem como foco a preparação da aprendizagem de aprendizagem de máquina para produção, incluindo a integração com sistemas existentes, testes de estabilidade e segurança, além da definição de um plano de monitoramento e manutenção. 
 
 ---
 
@@ -12,63 +10,44 @@ Foram aplicadas técnicas de ajuste de hiperparâmetros com validação cruzada 
 
 | Integrante         | Responsabilidade                                                                 |
 |--------------------|----------------------------------------------------------------------------------|
-| Pessoa 1           | Otimização do modelo **Random Forest** com GridSearchCV e validação cruzada     |
-| Pessoa 2           | Otimização do modelo **XGBoost** com RandomizedSearchCV e ajuste de parâmetros   |
-| Pessoa 3           | Implementação de validação cruzada + análise de erros e métricas de avaliação    |
+| Pessoa 1           | Responsável por adaptar e integrar o modelo ao sistema existente.     |
+| Pessoa 2           | Garantir que o sistema esteja funcionando conforme o esperado.   |
+| Pessoa 3           | Integração com sistemas.    |
 | Pessoa 4           | Organização final dos notebooks, arquivos e documentação (`README.txt`)          |
 
 ---
 
 ## 🧪 Modelos Otimizados
 
-### ✅ Random Forest (Pessoa 1)
+Preparação da solução de machine learning para produção:
 
-- Utilizou `RandomizedSearchCV` com validação cruzada (5-fold) para ajustar os hiperparâmetros:
-  - `n_estimators`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_features`
-- Aplicou `class_weight=balanced` para corrigir desbalanceamento da classe alvo.
-- Métrica de avaliação principal: **F1-score**
-- Resultados:
-  - **Melhor F1-score na validação cruzada**: ~0.95
-  - **Importância das features** plotada com `seaborn`
-- Modelo final salvo como: `random_forest_otimizado.joblib`
+Refino do pipeline de treinamento e inferência para maior desempenho e escalabilidade.
 
-- Resultados:
-  - Melhor F1-score para a classe "1" (aprovada)
-  - Gráfico de validação para `max_depth` incluído
+Organização do código em módulos reutilizáveis e com boas práticas de engenharia.
 
----
+Integração com sistemas existentes:
 
-### ✅ XGBoost (Pessoa 2)
+Mapeamento dos pontos de entrada e saída dos dados nos sistemas corporativos.
 
-- Ajustou os hiperparâmetros com `RandomizedSearchCV` e `StratifiedKFold`:
-  - `learning_rate`, `n_estimators`, `max_depth`, `subsample`, `colsample_bytree`, `gamma`, `min_child_weight`
-- Configuração extra:
-  - `use_label_encoder=False`
-  - `eval_metric='logloss'`
-- Métricas analisadas: **Acurácia**, **F1-score**, **AUC-ROC**
-- Resultados:
-  - **Melhoria significativa de desempenho após tuning**
-  - **Feature importance** visualizada e interpretada
-- Modelo pronto para exportação via `joblib`
+Definição das interfaces (APIs) para comunicação entre o modelo e outros serviços.
 
-- Observações:
-  - Otimização com 20 combinações e 5 folds: total de 100 treinamentos
-  - Monitoramento com `verbose` e suporte a `tqdm` se necessário
-  - Redução de warnings e melhora na performance geral
-  - AUC e F1 melhoraram em comparação ao modelo anterior
+Monitoramento do modelo em produção:
 
----
+Definição de métricas-chave de desempenho (accuracy, latência, throughput, etc.).
 
-### ✅ Validação Cruzada e Análise de Erros (Pessoa 3)
+Estratégias para detectar data drift e model drift.
 
-- Aplicou `cross_val_score` com `f1_macro` e `StratifiedKFold` (5-fold)
-- Utilizou `RandomForestClassifier` como baseline
-- Análises realizadas:
-  - Distribuição de scores entre as folds com `boxplot`
-  - Matriz de confusão com `seaborn.heatmap`
-  - Identificação de **erros comuns**, como proposições previstas como rejeitadas mas que foram aprovadas
-- Insights relevantes para próximas iterações dos modelos
+Plano de manutenção e atualização contínua:
 
+Estruturação de ciclos de reavaliação e re-treinamento do modelo com novos dados.
+
+Documentação de versões, controle de mudanças e validação antes de cada atualização.
+
+Documentação técnica e organizacional:
+
+Registro de decisões arquiteturais e técnicas.
+
+Criação de guias para desenvolvedores e operadores do sistema.
 
 ## 📂 Estrutura da Entrega
 
